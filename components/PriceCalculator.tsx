@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { CALCULATE_PRICE, CALCULATE_TAX, VODAFONE_CASH, FACEBOOK_URL } from '../constants';
+import { CALCULATE_PRICE, CALCULATE_TAX, VODAFONE_CASH, INSTAPAY_NUMBER, FACEBOOK_URL } from '../constants';
 import { Wallet, Info, ArrowRightLeft, ShoppingCart, Send } from 'lucide-react';
 
 const PriceCalculator: React.FC = () => {
@@ -97,17 +97,32 @@ const PriceCalculator: React.FC = () => {
                 اطلب الروبكس الآن
               </button>
 
-              <div className="p-6 rounded-2xl bg-white/5 flex items-center justify-between">
-                <div>
-                  <div className="text-xs text-gray-400 mb-1">رقم فودافون كاش (تحويل فقط)</div>
-                  <div className="text-xl font-black tracking-widest">{VODAFONE_CASH}</div>
+              <div className="space-y-3">
+                <div className="p-5 rounded-2xl bg-white/5 flex items-center justify-between border border-white/5">
+                  <div>
+                    <div className="text-xs text-gray-400 mb-1">فودافون كاش (تحويل فقط)</div>
+                    <div className="text-xl font-black tracking-widest">{VODAFONE_CASH}</div>
+                  </div>
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(VODAFONE_CASH)}
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-colors"
+                  >
+                    نسخ
+                  </button>
                 </div>
-                <button 
-                  onClick={() => navigator.clipboard.writeText(VODAFONE_CASH)}
-                  className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-colors"
-                >
-                  نسخ
-                </button>
+                
+                <div className="p-5 rounded-2xl bg-[#D4AF37]/10 flex items-center justify-between border border-[#D4AF37]/20">
+                  <div>
+                    <div className="text-xs text-[#D4AF37] font-bold mb-1">انستا باي (InstaPay)</div>
+                    <div className="text-xl font-black tracking-widest">{INSTAPAY_NUMBER}</div>
+                  </div>
+                  <button 
+                    onClick={() => navigator.clipboard.writeText(INSTAPAY_NUMBER)}
+                    className="px-4 py-2 bg-[#D4AF37]/20 hover:bg-[#D4AF37]/30 text-[#D4AF37] rounded-lg text-sm font-bold transition-colors"
+                  >
+                    نسخ
+                  </button>
+                </div>
               </div>
             </div>
 

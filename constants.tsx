@@ -4,9 +4,10 @@ import { ShoppingBag, Users, CheckCircle, TrendingUp, Calculator, Send, ShieldCh
 import { Stat, Review, TeamMember } from './types';
 
 export const STORE_NAME = "Everest Store";
-export const FACEBOOK_URL = "https://m.facebook.com/profile.php?id=61577573870702&name=xhp_nt__fb__action__open_user";
+export const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61577573870702";
 export const CONTACT_NUMBER = "01022449197";
 export const VODAFONE_CASH = "01287702619";
+export const INSTAPAY_NUMBER = "01036246645";
 
 export const CALCULATE_TAX = (amount: number): number => {
   return 5 + Math.floor(amount / 500) * 5;
@@ -39,7 +40,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
 
 export const PROCESS_STEPS = [
   { title: "احسب سعرك", desc: "استخدم الحاسبة لمعرفة المبلغ الإجمالي شامل الضرائب.", icon: <Calculator /> },
-  { title: "حول المبلغ", desc: "قم بتحويل المبلغ عبر فودافون كاش للرقم الموضح.", icon: <Send /> },
+  { title: "حول المبلغ", desc: "قم بتحويل المبلغ عبر فودافون كاش أو انستا باي.", icon: <Send /> },
   { title: "ارسل السكرين", desc: "تواصل معنا عبر الفيسبوك وارسل صورة التحويل.", icon: <ShieldCheck /> },
   { title: "استلم الروبكس", desc: "سيتم شحن الروبكس لحسابك فوراً بطريقة آمنة.", icon: <Zap /> },
 ];
@@ -47,7 +48,7 @@ export const PROCESS_STEPS = [
 export const FAQS = [
   { q: "هل الشحن آمن على حسابي؟", a: "نعم، الشحن يتم بطرق رسمية (Gamepass) ولا يتطلب كلمة سر حسابك نهائياً." },
   { q: "كم يستغرق استلام الروبكس؟", a: "التسليم فوري بمجرد تأكيد التحويل، ويظهر الروبكس في حسابك كـ Pending لمدة 5-7 أيام (قوانين روبلوكس)." },
-  { q: "ما هي طرق الدفع المتاحة؟", a: "حالياً نوفر الدفع عبر فودافون كاش وأي محفظة إلكترونية في مصر." },
+  { q: "ما هي طرق الدفع المتاحة؟", a: "حالياً نوفر الدفع عبر فودافون كاش، وأي محفظة إلكترونية في مصر، بالإضافة إلى التحويل البنكي عبر انستا باي (InstaPay)." },
 ];
 
 export const STATS: Stat[] = [

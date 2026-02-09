@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Bot, User } from 'lucide-react';
+import { MessageSquare, X, Send, Bot, User, Sparkles } from 'lucide-react';
 import { getChatResponse } from '../services/gemini';
 import { STORE_NAME } from '../constants';
 
@@ -16,8 +16,10 @@ const AIChat: React.FC = () => {
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isLoading, isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -43,7 +45,7 @@ const AIChat: React.FC = () => {
       {!isOpen && (
         <button 
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-16 h-16 gold-bg rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50 float"
+          className="fixed bottom-6 right-6 w-16 h-16 gold-bg rounded-2xl shadow-[0_10px_30px_rgba(212,175,55,0.3)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50 float"
         >
           <MessageSquare className="w-8 h-8 text-black" />
         </button>
@@ -51,50 +53,54 @@ const AIChat: React.FC = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-[95vw] md:w-[450px] h-[650px] glass rounded-3xl shadow-2xl z-50 flex flex-col border border-white/10 overflow-hidden">
+        <div className="fixed bottom-6 right-6 w-[92vw] md:w-[400px] h-[580px] bg-[#0a0a0a] rounded-[2rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] z-50 flex flex-col border border-white/10 overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300">
+          
           {/* Header */}
-          <div className="p-6 gold-bg flex justify-between items-center text-black">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-black/10 rounded-full flex items-center justify-center">
+          <div className="p-5 gold-bg flex justify-between items-center text-black shrink-0 relative overflow-hidden">
+            <div className="flex items-center gap-3 relative z-10">
+              <div className="w-11 h-11 bg-black/10 rounded-xl flex items-center justify-center backdrop-blur-sm shadow-sm">
                 <Bot className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold">مساعد إيفرست الذكي</h3>
-                <p className="text-xs opacity-70">بواسطة {STORE_NAME}</p>
+                <h3 className="font-bold text-[15px] leading-none mb-1.5">مساعد إيفرست الذكي</h3>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 bg-green-600 rounded-full animate-pulse shadow-[0_0_4px_#16a34a]"></div>
+                  <span className="text-[11px] font-bold opacity-80 tracking-wide">متصل الآن</span>
+                </div>
               </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="hover:bg-black/10 p-2 rounded-full transition-colors">
-              <X className="w-6 h-6" />
+            <button onClick={() => setIsOpen(false)} className="hover:bg-black/10 p-2.5 rounded-xl transition-colors">
+              <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-6">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-transparent to-white/[0.02]">
             {messages.length === 0 && (
-              <div className="text-center text-gray-400 mt-10">
-                <Bot className="w-12 h-12 mx-auto mb-4 opacity-20" />
-                <p>مرحباً بك في {STORE_NAME}! <br /> كيف يمكنني مساعدتك اليوم؟</p>
+              <div className="text-center py-12 px-6">
+                <Bot className="w-10 h-10 mx-auto mb-4 text-[#D4AF37] opacity-20" />
+                <p className="text-sm text-gray-400">مرحباً! كيف يمكنني مساعدتك في طلب الروبكس اليوم؟</p>
               </div>
             )}
+            
             {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-4 rounded-2xl flex gap-3 ${
-                  msg.role === 'user' 
-                    ? 'bg-[#D4AF37] text-black rounded-bl-none' 
-                    : 'bg-white/5 text-white border border-white/10 rounded-br-none'
-                }`}>
-                  <div className="shrink-0 pt-1">
-                    {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4 gold-text" />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[14px] leading-relaxed break-words whitespace-pre-wrap">{msg.text}</p>
-                  </div>
+              <div key={i} className={`flex w-full ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div 
+                  className={`relative p-3.5 text-sm leading-relaxed rounded-2xl transition-all shadow-sm ${
+                    msg.role === 'user' 
+                      ? 'bg-[#D4AF37] text-black rounded-tr-none ml-4' 
+                      : 'bg-white/5 text-gray-200 border border-white/10 rounded-tl-none mr-4'
+                  }`}
+                  style={{ width: 'fit-content', maxWidth: '85%' }}
+                >
+                  <p className="break-words whitespace-pre-wrap">{msg.text}</p>
                 </div>
               </div>
             ))}
+            
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-white/5 p-4 rounded-2xl border border-white/10 flex gap-1">
+                <div className="bg-white/5 p-4 rounded-2xl border border-white/10 rounded-tl-none flex gap-1.5">
                   <div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce"></div>
                   <div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
                   <div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
@@ -105,20 +111,20 @@ const AIChat: React.FC = () => {
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t border-white/10 bg-black/40">
-            <div className="relative">
+          <div className="p-4 border-t border-white/5 bg-black/60">
+            <div className="relative group">
               <input 
                 type="text" 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="اكتب رسالتك..."
-                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 pr-12 focus:outline-none focus:border-[#D4AF37] transition-all"
+                placeholder="اكتب استفسارك هنا..."
+                className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-4 pr-12 focus:outline-none focus:border-[#D4AF37] transition-all text-sm"
               />
               <button 
                 onClick={handleSend}
-                disabled={isLoading}
-                className="absolute left-2 top-1/2 -translate-y-1/2 p-2 gold-text hover:bg-white/5 rounded-lg transition-colors"
+                disabled={isLoading || !input.trim()}
+                className="absolute left-2 top-1/2 -translate-y-1/2 p-2 gold-text hover:bg-white/10 rounded-lg transition-colors disabled:opacity-30"
               >
                 <Send className="w-5 h-5 rotate-180" />
               </button>
